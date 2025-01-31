@@ -1,7 +1,9 @@
 import tempfile
 from os import path as osp
+import os #! H95
 from typing import Any, Dict
 
+import json
 import mmcv
 import numpy as np
 import pyquaternion
@@ -149,8 +151,8 @@ class NuScenesDataset(Custom3DDataset):
         eval_version="detection_cvpr_2019",
         use_valid_flag=False,
     ) -> None:
-        self.load_interval = load_interval
-        self.use_valid_flag = use_valid_flag
+        self.load_interval = load_interval    #! when train: 1
+        self.use_valid_flag = use_valid_flag  #! when train: True
         super().__init__(
             dataset_root=dataset_root,
             ann_file=ann_file,
@@ -176,6 +178,73 @@ class NuScenesDataset(Custom3DDataset):
                 use_map=False,
                 use_external=False,
             )
+        
+        #! H95: 19, 20
+        # self.single_pred_path = "./data/uav3d/v1.0/h95_sample_sum/single_pred.json"
+        # with open(self.single_pred_path) as f:
+        #     self.single_pred_all = json.load(f)
+        
+        # self.sample_data_path = "./data/uav3d/v1.0/v1.0-trainval/sample_data.json"
+        # with open(self.sample_data_path, 'r') as f:
+        #     self.sample_data_all = json.load(f)
+        
+        # self.calibrated_sensor_path = "./data/uav3d/v1.0/v1.0-trainval/calibrated_sensor.json"
+        # with open(self.calibrated_sensor_path, 'r') as f:
+        #     self.calibrated_sensor_all = json.load(f)
+        
+        #! h95_add_21&22: 将读取文件放在初始化部分
+        # self.single_preds = {}
+        # self.single_pred_path = "./data/uav3d/v1.0/h95_each_sample_single_pred_ego_coordinate"
+        # for mm in os.listdir(self.single_pred_path):
+        #     token = mm[:-5]
+        #     full_path = os.path.join(self.single_pred_path, mm)
+        #     with open(full_path, 'r') as f:
+        #         single_pred = json.load(f)
+        #     single_pred = np.array(single_pred).astype(np.float32)
+        #     self.single_preds[token] = single_pred
+
+        #! 23, 24
+        #* 20250125, 01:24: 换成新的写法
+        print(f"Start to load single_pred file.")
+        self.single_pred_path = "/mnt/storage/hjw/code/uav3d/perception/bevfusion/h95_2324.json"
+        with open(self.single_pred_path) as f:
+            self.single_preds = json.load(f)
+        print(f"Successfully load single_pred file.")
+        # print(self.single_preds["d081ede3282947da98274a7268787c0f"])
+        # raise Exception
+        #* 经过验证, len==5
+        # for k, v in self.single_preds.items():
+        #     if len(v) != 5:
+        #         raise Exception("len!=5")
+        # raise Exception("len==5")
+
+        #* 老的写法
+        # self.single_pred_path = "./data/uav3d/v1.0/h95_single_pred_tensor"
+        # self.single_preds = {}
+        # sample_tokens = []
+        # for record in os.listdir(self.single_pred_path):
+        #     # record: a74bf49d1dc54d84ae5288a2940ba409.json
+        #     sample_token = record[0:-5]
+        #     sample_tokens.append(sample_token)
+        #     # print(sample_token)
+        #     full_path = os.path.join(self.single_pred_path, record)
+        #     with open(full_path, "r") as f:
+        #         single_pred = json.load(f) # list
+            
+        #     # max_N = max(len(item) for item in single_pred)
+        #     # padded_data = []
+        #     # for kk in single_pred:
+        #     #     padded_item = kk + [[9995] * 8] * (max_N - len(kk)) # 用9995填充
+        #     #     padded_data.append(padded_item)
+        #     # single_pred = torch.tensor(padded_data) #! [5, 37, 8]
+        #     #! 以list的形式回传
+        #     self.single_preds[sample_token] = single_pred
+        # kkk = set(sample_tokens) # len=17000
+        # print(len(kkk))
+        # print(len(sample_tokens)) # len=17000
+        # print("977602f697fc49fb96baf52cee976192" in sample_tokens) # True
+        # raise Exception
+
 
     def get_cat_ids(self, idx):
         """Get category distribution of single scene.
@@ -213,6 +282,10 @@ class NuScenesDataset(Custom3DDataset):
         data = mmcv.load(ann_file)
         data_infos = list(sorted(data["infos"], key=lambda e: e["timestamp"]))
         data_infos = data_infos[:: self.load_interval]
+        #! when train, data_infos=list, len = 14000
+        #!     data_infos[0].keys(): ['lidar_path', 'token', 'sweeps', 'cams', 'lidar2ego_translation', 'lidar2ego_rotation', 'ego2global_translation', 'ego2global_rotation', 'timestamp', 'gt_boxes', 'gt_names', 'gt_velocity', 'num_lidar_pts', 'num_radar_pts', 'valid_flag', 'location']
+        #!         data_infos[0]['cams']: dict, keys(25个) = ['CAMERA_FRONT_id_0', 'CAMERA_BACK_id_0', 'CAMERA_LEFT_id_0', 'CAMERA_RIGHT_id_0', 'CAMERA_BOTTOM_id_0', 'CAMERA_FRONT_id_1', 'CAMERA_BACK_id_1', 'CAMERA_LEFT_id_1', 'CAMERA_RIGHT_id_1', 'CAMERA_BOTTOM_id_1', 'CAMERA_FRONT_id_2', 'CAMERA_BACK_id_2', 'CAMERA_LEFT_id_2', 'CAMERA_RIGHT_id_2', 'CAMERA_BOTTOM_id_2', 'CAMERA_FRONT_id_3', 'CAMERA_BACK_id_3', 'CAMERA_LEFT_id_3', 'CAMERA_RIGHT_id_3', 'CAMERA_BOTTOM_id_3', 'CAMERA_FRONT_id_4', 'CAMERA_BACK_id_4', 'CAMERA_LEFT_id_4', 'CAMERA_RIGHT_id_4', 'CAMERA_BOTTOM_id_4']
+
         self.metadata = data["metadata"]
         self.version = self.metadata["version"]
         return data_infos
@@ -228,6 +301,47 @@ class NuScenesDataset(Custom3DDataset):
             timestamp=info["timestamp"],
             location=info["location"],
         )
+
+        #! 19, 20
+        #! 这里不能这么写, 速度太慢, 要提前准备好数据, 直接加载
+        # sample_token = info["token"]
+        # single_pred = self.single_pred_all[sample_token]
+        # calibrated_sensor_token = [mm["calibrated_sensor_token"] for mm in self.sample_data_all if mm["sample_token"]==sample_token and "BOTTOM_id_0" in mm["filename"] ]
+        # assert len(calibrated_sensor_token) == 1
+
+        # ego2global_translation = [mm["translation"] for mm in self.calibrated_sensor_all if mm["token"] == calibrated_sensor_token[0]]
+        # for box in single_pred:
+        #     box[0] = box[0] - ego2global_translation[0][0]
+        #     box[1] = box[1] - ego2global_translation[0][1]
+        # single_pred = np.array(single_pred).astype(np.float32)
+        # data["single_pred"] = single_pred
+
+        #! 新的写法: 添加single_detection在ego坐标系的预测box
+        # 频繁的和文件交互: 可能很耗时间
+        # sample_token = info["token"]
+        # with open("./data/uav3d/v1.0/h95_each_sample_single_pred_ego_coordinate/" + sample_token + ".json", "r") as f:
+        #     single_pred = json.load(f)
+        # single_pred = np.array(single_pred).astype(np.float32)
+        # data["single_pred"] = single_pred
+
+
+        #! 23, 24: 加载的是global的box, 需要转换到ego下
+        mm = self.single_preds[info["token"]]
+        for ii in range(len(mm)):
+            pred = mm[ii] # 
+            for jj in range(len(pred)):
+                pred[jj][0] -= info["ego2global_translation"][0]
+                pred[jj][1] -= info["ego2global_translation"][1]
+                
+        # mm[:, :, 0] -= info["ego2global_translation"][0]
+        # mm[:, :, 1] -= info["ego2global_translation"][1]
+        data["single_pred"] = mm #! 以list形式回传
+
+
+
+        #! 21, 22:
+        # data["single_pred"] = self.single_preds[info["token"]]
+
 
         # ego to global transform
         ego2global = np.eye(4).astype(np.float32)
@@ -318,6 +432,22 @@ class NuScenesDataset(Custom3DDataset):
 
         annos = self.get_ann_info(index)
         data["ann_info"] = annos
+
+        #! H95: 在这里, gt_bboxes_3d跟直接读取.pkl文件还是一样的
+        #! e.g.: sample_token = "933662bda2c945489372ae5a4a7abd57"
+        # if info["token"] == "933662bda2c945489372ae5a4a7abd57":
+        #     print(annos)
+        #     raise Exception
+        # if info["token"] == "933662bda2c945489372ae5a4a7abd57":
+        #     print(f"single_pred = {mm}")
+        #     print(f"gt_boxes={annos}")
+        #     #! annos["gt_boxes"]:
+        #     # ([[-7.4315e+01,  7.8894e+01, -5.5465e-03,  4.1928e+00,  1.8162e+00,  1.4738e+00, -1.5712e+00,  0.0000e+00,  0.0000e+00],                                                                                          
+        #     #   [ 9.8626e+00,  7.8933e+01,  7.3985e-02,  4.6110e+00,  2.2417e+00,  1.6673e+00, -1.5707e+00,  0.0000e+00,  0.0000e+00],
+        #     #   [-7.6892e+01,  8.2391e+01, -2.3888e-02,  4.9742e+00,  2.0384e+00,  1.5543e+00, -1.5711e+00,  0.0000e+00,  0.0000e+00],
+        #     #   [ 9.6960e+00,  6.8412e+01, -5.8792e-03,  4.7175e+00,  1.8948e+00,  1.3009e+00, -1.5711e+00,  0.0000e+00,  0.0000e+00],
+        #     #   [-7.7576e+01, -3.2912e+01, -1.1668e-02,  4.1812e+00,  1.9941e+00,  1.3853e+00, -1.5749e+00,  0.0000e+00,  0.0000e+00]]
+        #     raise Exception
         return data
 
     def get_ann_info(self, index):
@@ -361,12 +491,42 @@ class NuScenesDataset(Custom3DDataset):
         # the nuscenes box center is [0.5, 0.5, 0.5], we change it to be
         # the same as KITTI (0.5, 0.5, 0)
         # haotian: this is an important change: from 0.5, 0.5, 0.5 -> 0.5, 0.5, 0
+        #! self.box_mode_3d: Box3DMode.LIDAR
+        #! before conver, numpy.array, [N, 9]
+        #!     origin: [ 6.31729126e+00 -7.27024364e+01 -5.54567343e-03  
+        #!               4.19283009e+00  1.81618583e+00  1.47383118e+00  
+        #!               1.56660185e+00  0.00000000e+00  0.00000000e+00]
+
+
+        #! gt_bboxes_3d: 变换前
+        # [[-7.43145523e+01  7.88936310e+01 -5.54647436e-03  4.19283009e+00  1.81618583e+00  1.47383118e+00 -1.57118204e+00  0.00000000e+00  0.00000000e+00]
+        # [ 9.86259460e+00  7.89334259e+01  7.39851147e-02  4.61100578e+00  2.24171329e+00  1.66727591e+00 -1.57072123e+00  0.00000000e+00  0.00000000e+00]
+        # [-7.68924026e+01  8.23912506e+01 -2.38877479e-02  4.97424412e+00  2.03840137e+00  1.55429590e+00 -1.57112775e+00  0.00000000e+00  0.00000000e+00]
+        # [ 9.69602966e+00  6.84120483e+01 -5.87919215e-03  4.71752501e+00  1.89482689e+00  1.30093992e+00 -1.57113294e+00  0.00000000e+00  0.00000000e+00]
+        # [-7.75763397e+01 -3.29122467e+01 -1.16683003e-02  4.18121004e+00  1.99411714e+00  1.38529611e+00 -1.57488842e+00  0.00000000e+00  0.00000000e+00]]
+
+        #! 这行代码一点也不变
         gt_bboxes_3d = LiDARInstance3DBoxes(
             gt_bboxes_3d, box_dim=gt_bboxes_3d.shape[-1], origin=(0.5, 0.5, 0)
         ).convert_to(self.box_mode_3d)
+        #! gt_bboxes_3d: 变换后
+        # tensor([[-7.4315e+01,  7.8894e+01, -5.5465e-03,  4.1928e+00,  1.8162e+00,  1.4738e+00, -1.5712e+00,  0.0000e+00,  0.0000e+00],
+        #         [ 9.8626e+00,  7.8933e+01,  7.3985e-02,  4.6110e+00,  2.2417e+00, 1.6673e+00, -1.5707e+00,  0.0000e+00,  0.0000e+00],
+        #         [-7.6892e+01,  8.2391e+01, -2.3888e-02,  4.9742e+00,  2.0384e+00, 1.5543e+00, -1.5711e+00,  0.0000e+00,  0.0000e+00],
+        #         [ 9.6960e+00,  6.8412e+01, -5.8792e-03,  4.7175e+00,  1.8948e+00, 1.3009e+00, -1.5711e+00,  0.0000e+00,  0.0000e+00],
+        #         [-7.7576e+01, -3.2912e+01, -1.1668e-02,  4.1812e+00,  1.9941e+00, 1.3853e+00, -1.5749e+00,  0.0000e+00,  0.0000e+00]])
 
+        #! after convert, <class 'mmdet3d.core.bbox.structures.lidar_box3d.LiDARInstance3DBoxes'>
+        #! after: tensor([ 6.3173e+00, -7.2702e+01, -5.5457e-03,  
+        #!                 4.1928e+00,  1.8162e+00,  1.4738e+00,  
+        #!                 1.5666e+00,  0.0000e+00,  0.0000e+00]
+
+
+
+        #! gt_lables_3d: (N, ) [0, 0, ..., 0]
+        #! gt_names_3d: (N, )  ['car', 'car', ..., 'car]
         anns_results = dict(
-            gt_bboxes_3d=gt_bboxes_3d,
+            gt_bboxes_3d=gt_bboxes_3d, 
             gt_labels_3d=gt_labels_3d,
             gt_names=gt_names_3d,
         )
