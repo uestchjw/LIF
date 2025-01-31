@@ -1,7 +1,7 @@
 # VLIF
 VLIF: Vision-guided Late-Intermediate Fusion Framework for Multi-UAV Collaborative Perception
 
-![img](https://github.com/uestchjw/VLIF/blob/main/Images/Overview_03.png)
+![img](https://github.com/uestchjw/VLIF/blob/main/images/Overview_03.png)
 
 ## TODO list
 - [x] release the Grounding DINO detection results
