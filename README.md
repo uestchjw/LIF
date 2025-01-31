@@ -7,7 +7,7 @@ VLIF: Vision-guided Late-Intermediate Fusion Framework for Multi-UAV Collaborati
 - [x] release the Grounding DINO detection results
 - [x] release the code
 - [x] release the checkpoints
-- [ ] training details (once accepted)
+- [ ] training details (Once accepted)
 
 ## Installation
 Please refer to [UAV3D](https://github.com/huiyegit/UAV3D)
