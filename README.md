@@ -1,4 +1,4 @@
-# VLIF
+# LIF
 Is Intermediate Fusion All You Need for UAV-based Collaborative Perception?
 
 ![img](https://github.com/uestchjw/LIF/blob/main/images/%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84%E5%9B%BE_v5.pdf)
