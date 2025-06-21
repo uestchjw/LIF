@@ -25,7 +25,7 @@ Please consider citing our paper if you found our work interesting and useful.
       year={2025},
       eprint={2504.21774},
       archivePrefix={arXiv},
-      primaryClass={cs.AI},
+      primaryClass={cs.CV},
       url={https://arxiv.org/abs/2504.21774}, 
 }
 ```
