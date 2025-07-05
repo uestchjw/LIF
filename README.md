@@ -4,7 +4,7 @@
 <div align="center">
   <img src="https://github.com/uestchjw/LIF/blob/main/images/diagram.png" style="width:70%">
 
-  ---
+  **▲ Diagram** | **Overview ▼**
   
   <img src="https://github.com/uestchjw/LIF/blob/main/images/overview_v5.png" style="width:70%">
 </div>
