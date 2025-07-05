@@ -1,8 +1,9 @@
 # LIF (Late-Intermediate Fusion)
 [ITSC 2025] Is Intermediate Fusion All You Need for UAV-based Collaborative Perception?
 
-<img src="https://github.com/uestchjw/LIF/blob/main/images/overview_v5.png" style="width:70%">
-
+<div align="center">
+  <img src="https://github.com/uestchjw/LIF/blob/main/images/overview_v5.png" style="width:70%">
+</div>
 ## TODO list
 - [x] release the code
 - [x] release the checkpoints
