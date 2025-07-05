@@ -4,7 +4,7 @@
 <div align="center">
   <img src="https://github.com/uestchjw/LIF/blob/main/images/diagram.png" style="width:70%">
 
-  **▲ Diagram** | **Overview ▼**
+  <div style="color: #ccc; margin: 10px 0;">✦ ✦ ✦</div>
   
   <img src="https://github.com/uestchjw/LIF/blob/main/images/overview_v5.png" style="width:70%">
 </div>
