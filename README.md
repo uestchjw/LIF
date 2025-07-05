@@ -4,7 +4,7 @@
 <div align="center">
   <img src="https://github.com/uestchjw/LIF/blob/main/images/diagram.png" style="width:70%">
 
-  <hr style="height:0.2px; border:none; background:#e1e4e8; margin: 10px 0;">
+  <table><tr><td style="border-top:1px solid #e1e4e8; padding:0;"></td></tr></table>
   
   <img src="https://github.com/uestchjw/LIF/blob/main/images/overview_v5.png" style="width:70%">
 </div>
