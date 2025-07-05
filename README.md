@@ -4,6 +4,7 @@
 <div align="center">
   <img src="https://github.com/uestchjw/LIF/blob/main/images/overview_v5.png" style="width:70%">
 </div>
+
 ## TODO list
 - [x] release the code
 - [x] release the checkpoints
