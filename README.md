@@ -15,6 +15,8 @@
 Please visit the notion docs [LIF Installation Guide](https://foam-language-c16.notion.site/LIF-Installation-Guide-228abd27bd768021a2bbff75bab2e3a4) for details!
 ## Training and evaluation
 Please visit the notion docs [Training and Evaluation](https://foam-language-c16.notion.site/Training-and-Evaluation-228abd27bd76809c9d4fc9b32e35bdb3) for details!
+## Checkpoints
+Download [LIF](https://pan.baidu.com/s/12lN8b1hVrx3VIX1MXvas6A?pwd=4ig9) and save it to /perception/bevfusion/runs
 ## Citation
 Please consider citing our paper if you found our work interesting and useful.
 ```bibtex
