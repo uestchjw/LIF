@@ -1,5 +1,5 @@
 # [ITSC 2025] Is Intermediate Fusion All You Need for UAV-based Collaborative Perception?
-[arXiv](https://arxiv.org/abs/2504.21774)
+[Paper](https://arxiv.org/abs/2504.21774)
 
 <div align="center">
   <img src="https://github.com/uestchjw/LIF/blob/main/images/diagram.png" style="width:70%">
@@ -9,16 +9,12 @@
 ## TODO list
 - [x] release the code
 - [x] release the checkpoints
-- [ ] training details (Once accepted)
+- [x] training&evaluation details
 
 ## Installation
 Please visit the notion docs [LIF Installation Guide](https://foam-language-c16.notion.site/LIF-Installation-Guide-228abd27bd768021a2bbff75bab2e3a4) for details!
-## Prepare dataset
-* [UAV3D](https://drive.google.com/drive/folders/1dr0TSTDSmWV1FUn_kuXcrG_pMVoPpKuj)
-## Prepare data used in LIF
-### single-UAV BEV perception results
-* Baidu Drive: [baidu_drive_link](https://pan.baidu.com/s/1DiQkG1KubPPucsvn-LaTGg?pwd=y2x4)
-* Google Drive: [google_drive_lilnk](https://drive.google.com/file/d/1DsRz8DO0dWDLiayUw9cpS42rPI8FRkmh/view?usp=sharing)
+## Training and evaluation
+Please visit the notion docs [Training and Evaluation](https://foam-language-c16.notion.site/Training-and-Evaluation-228abd27bd76809c9d4fc9b32e35bdb3) for details!
 ## Citation
 Please consider citing our paper if you found our work interesting and useful.
 ```bibtex
