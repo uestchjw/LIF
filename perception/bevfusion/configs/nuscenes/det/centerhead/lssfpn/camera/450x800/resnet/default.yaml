@@ -57,7 +57,8 @@ model:
   decoder:
     backbone:
       type: GeneralizedResNet
-      in_channels: 256
+      # in_channels: 256 # uav3d
+      in_channels: 281
       blocks:
         - [2, 128, 2]
         - [2, 256, 2]
