@@ -1,5 +1,5 @@
 # [ITSC 2025] Is Intermediate Fusion All You Need for UAV-based Collaborative Perception?
-
+[arXiv](https://arxiv.org/abs/2504.21774)
 
 <div align="center">
   <img src="https://github.com/uestchjw/LIF/blob/main/images/diagram.png" style="width:70%">
