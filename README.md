@@ -12,7 +12,7 @@
 - [ ] training details (Once accepted)
 
 ## Installation
-Please refer to [UAV3D](https://github.com/huiyegit/UAV3D)
+Please visit the notion docs [LIF Installation Guide](https://foam-language-c16.notion.site/LIF-Installation-Guide-228abd27bd768021a2bbff75bab2e3a4) for details!
 ## Prepare dataset
 * [UAV3D](https://drive.google.com/drive/folders/1dr0TSTDSmWV1FUn_kuXcrG_pMVoPpKuj)
 ## Prepare data used in LIF
