@@ -28,3 +28,7 @@ Please consider citing our paper if you found our work interesting and useful.
       url={https://arxiv.org/abs/2504.21774}, 
 }
 ```
+## Acknowledgement
+This project is impossible without the code of [UAV3D](https://github.com/huiyegit/UAV3D).
+Thanks to their great work!
+
